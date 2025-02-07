@@ -1,7 +1,7 @@
-## How to run DeepSeek 1.58bit Quant On g6e.4xlarge
+## How to run DeepSeek 1.58bit Quant On g6e.12xlarge
 
 
-**Launch a G6e.4xlarge instance with atleast 450GB Storage with 16000 IOPS and Throughput to be 1000.**
+**Launch a g6e.12xlarge instance with atleast 450GB Storage with 16000 IOPS and Throughput to be 1000.**
 
 ## Start by cloning and building llama.cpp
 
@@ -56,15 +56,13 @@ huggingface-cli download unsloth/DeepSeek-R1-GGUF \
 ```{bash}
 
 ./llama.cpp/llama-server \
---model /home/ubuntu/DeepSeek-R1-GGUF/DeepSeek-R1-UD-IQ1_S/DeepSeek-R1-UD-IQ1_S-00001-of-00003.gguf \
-    --cache-type-k q4_0 \
-    --threads 16 \
-    --prio 2 \
-    --temp 0.6 \
-    --ctx-size 8192 \
-    --seed 3407 \
-    --n-gpu-layers 16 \
-    -no-cnv \
-
-
+  --model /home/ubuntu/DeepSeek-R1-GGUF/DeepSeek-R1-UD-IQ1_S/DeepSeek-R1-UD-IQ1_S-00001-of-00003.gguf \
+  --cache-type-k q4_0 \
+  --threads 48 \ # use all threads
+  --prio 3 \
+  --temp 0.6 \
+  --ctx-size 8192 \
+  --seed 3407 \
+  --n-gpu-layers 62 # all layers are offloaded to the GPUs
+  -np 4 
 ```
