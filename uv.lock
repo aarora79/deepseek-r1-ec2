@@ -416,6 +416,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "chainlit" },
+    { name = "python-dotenv" },
     { name = "requests" },
     { name = "vllm" },
 ]
@@ -423,6 +424,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "chainlit", specifier = ">=2.0.602" },
+    { name = "python-dotenv", specifier = ">=1.0.1" },
     { name = "requests", specifier = ">=2.32.3" },
     { name = "vllm", specifier = ">=0.7.0" },
 ]

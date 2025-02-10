@@ -194,6 +194,7 @@ Here are the steps for running DeepSeek-R1 models with dynamic quantization. The
     ```{.bashrc}
     cd deepseek-r1-ec2
     curl -LsSf https://astral.sh/uv/install.sh | sh
+    source $HOME/.local/bin/env
     uv venv && source .venv/bin/activate && uv pip sync pyproject.toml    
     ```
 

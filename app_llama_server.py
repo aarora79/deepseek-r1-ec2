@@ -3,12 +3,11 @@ import chainlit as cl
 import asyncio
 
 from openai import AsyncClient
-
+model_name = "deepseek-r1-variant"
 client = AsyncClient(base_url="http://localhost:8080/", api_key="lm-studio")
 
 settings = {
-    "temperature": 0.5,
-    "max_tokens": 2048,
+    "temperature": 0.6,
 }
 
 
