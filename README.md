@@ -78,7 +78,7 @@ Here are the steps for running DeepSeek-R1 models with dynamic quantization. The
 
 
     ```{.bashrc}
-    ./llama.cpp/llama-server --model ${HOME}/DeepSeek-R1-GGUF/DeepSeek-R1-UD-IQ1_S/DeepSeek-R1-UD-IQ1_S-00001-of-00003.gguf --cache-type-k q4_0 --threads 48 --prio 3 --temp 0.6 --ctx-size 8192 --seed 3407 --n-gpu-layers 62 -np 4
+    ./llama.cpp/llama-server --model ${HOME}/DeepSeek-R1-GGUF/DeepSeek-R1-UD-IQ1_S/DeepSeek-R1-UD-IQ1_S-00001-of-00003.gguf --cache-type-k q4_0 --threads 48 --prio 3 --temp 0.6 --ctx-size 8192 --seed 3407 --n-gpu-layers 62 -np 4 --batch-size 4096 --numa distribute
     ```
 
     Once the server starts succesfully you should see the following messages being printed out on the console:
@@ -95,8 +95,8 @@ Here are the steps for running DeepSeek-R1 models with dynamic quantization. The
 1. Now we should have an API endpoint to use we can use. We can send it a `cURL` command in the following format:
 
     ```{.bashrc}
-    model_id=DeepSeek-R1-UD-IQ1_S
-    curl -X POST   -H "Content-Type: application/json"   -d '{"prompt": "Is gravity a particle?", "max_tokens": 500, "model": $MODEL_ID}'   http://localhost:8080/completion |jq
+    MODEL_ID=DeepSeek-R1-UD-IQ1_S
+    curl -X POST   -H "Content-Type: application/json"   -d '{"prompt": "Is gravity a particle?", "max_tokens": 500, "model": "$MODEL_ID"}'   http://localhost:8080/completion |jq
     ```
 
     You should now see a response such as the one given below. **Note the `predicted_per_second` field in the response, this gives the token/sec value which in this example is ~13 tokens/second**.
@@ -187,6 +187,13 @@ Here are the steps for running DeepSeek-R1 models with dynamic quantization. The
             "predicted_per_second": 12.708413211005539
         }
     }
+    ```
+
+1. To run the `llama-server` in the background use the [`run_llama_server.sh`](./run_llama_server.sh) provided in this repo. This script starts the `llama-server` if it is not running and restarts it if the CUDA memory utilization becomes greater than 95%. You can use this script to have the `llama-server` running always so as to have a reliable endpoint for use with applications (such as a benchmarking task).
+
+    ```{.bashrc}
+    # run ./run_llama_server without any parameters to see all command line options
+    ./run_llama_server.sh -m ${HOME}/DeepSeek-R1-GGUF/DeepSeek-R1-UD-IQ1_S/DeepSeek-R1-UD-IQ1_S-00001-of-00003.gguf --mem-threshold 99
     ```
 
 1. Now we are ready to run a simple Conversational AI app. Run the following commands in a new terminal.
