@@ -196,6 +196,8 @@ Here are the steps for running DeepSeek-R1 models with dynamic quantization. The
     ./run_llama_server.sh -m ${HOME}/DeepSeek-R1-GGUF/DeepSeek-R1-UD-IQ1_S/DeepSeek-R1-UD-IQ1_S-00001-of-00003.gguf --mem-threshold 99
     ```
 
+#### Conversational AI app
+
 1. Now we are ready to run a simple Conversational AI app. Run the following commands in a new terminal.
 
     ```{.bashrc}
@@ -209,6 +211,22 @@ Here are the steps for running DeepSeek-R1 models with dynamic quantization. The
 
     ```{.bashrc}
     chainlit run app_llama_server.py
+    ```
+
+#### CLI apps
+
+1. We can also run inferences using two CLI programs provided in this repo. We can use either the `/chat/completions` endpoint or the `/completion` endpoint.
+
+    ```{.bashrc}
+    # run python chat_completions.py --help to see command line arguments
+    python chat_completions.py --stream yes --input "What is 2+2?"
+    ```
+
+    **Note that with `/completion` endpoint we have to specify the prompt with `<｜User｜>` and `<｜Assistant｜>` tags for the model to `<think>` otherwise the model is likely to skip the reasoning process leading to less accurate results**.
+
+    ```{.bashrc}
+    # run python completion.py --help to see command line arguments
+    python completion.py --prompt "<｜User｜>What is 2+2?<｜Assistant｜>"
     ```
 
 ### Distilled models
