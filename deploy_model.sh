@@ -95,7 +95,7 @@ docker run -d \
     --env "HF_TOKEN=$HF_TOKEN" \
     --ipc=host \
     -p 8000:8000 \
-    vllm/vllm-openai:v0.6.6.post1 \
+    vllm/vllm-openai:v0.7.1 \
     --model "$MODEL_ID" \
     --tensor-parallel-size "$TP_DEGREE" \
     --max-model-len 32768 \
